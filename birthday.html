@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        
+        body {
+            font-family: 'Ma Shan Zheng', cursive, Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            color: #ffcc00;
+            font-size: 3.5rem;
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        /* 照片展示区域 */
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            border: 10px solid #fff;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .photo-frame:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        
+        .photo-frame::before {
+            content: "点击上传照片";
+            position: absolute;
+            color: #999;
+            font-size: 1rem;
+            z-index: 1;
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cake-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin: 20px 0;
+            transition: transform 0.5s;
+        }
+        
+        .cake-img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .message-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            line-height: 1.8;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .balloons {
+            font-size: 40px;
+            margin: 20px 0;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .balloons span {
+            display: inline-block;
+            animation: float 4s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff3366, #ff9933);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 3;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6; }
+        }
+        
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .photo-frame {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .message-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <h1>生日快乐！</h1>
+        
+        <div class="balloons">
+            <span style="--i:1">🎈</span>
+            <span style="--i:2">🎉</span>
+            <span style="--i:3">🎁</span>
+            <span style="--i:4">🎊</span>
+            <span style="--i:5">🎂</span>
+        </div>
+        
+        <!-- 照片展示区域 -->
+        <div class="photo-gallery">
+            <div class="photo-frame">
+                <!-- 这里可以放照片 -->
+                <!-- <img src="你的照片URL" alt="生日照片"> -->
+            </div>
+            <div class="photo-frame">
+                <!-- 这里可以放照片 -->
+                <!-- <img src="你的照片URL" alt="生日照片"> -->
+            </div>
+            <div class="photo-frame">
+                <!-- 这里可以放照片 -->
+                <!-- <img src="你的照片URL" alt="生日照片"> -->
+            </div>
+        </div>
+        
+        <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="生日蛋糕" class="cake-img">
+        
+        <div class="message-box">
+            <p>亲爱的朋友，</p>
+            <p>在这个特别的日子里，愿你的生活像这蛋糕一样甜美，</p>
+            <p>像气球一样轻盈快乐，像星光一样灿烂美好。</p>
+            <p>祝你岁岁平安，年年有今日，岁岁有今朝！</p>
+        </div>
+        
+        <button class="btn" id="celebrateBtn">点击庆祝</button>
+        
+        <footer>
+            <p>为你特别制作 · <span id="currentYear"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        // 显示当前年份
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // 庆祝按钮功能
+        document.getElementById('celebrateBtn').addEventListener('click', function() {
+            // 创建五彩纸屑效果
+            for(let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+            
+            // 播放生日音乐
+            const audio = new Audio('https://www.soundjay.com/human/sounds/applause-01.mp3');
+            audio.play();
+            
+            // 按钮动画
+            this.textContent = '生日快乐！';
+            this.style.background = 'linear-gradient(45deg, #33ff57, #3399ff)';
+        });
+        
+        // 照片框点击上传功能
+        const photoFrames = document.querySelectorAll('.photo-frame');
+        photoFrames.forEach(frame => {
+            frame.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                
+                input.onchange = e => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = event => {
+                            const img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.alt = '上传的照片';
+                            this.innerHTML = '';
+                            this.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                
+                input.click();
+            });
+        });
+        
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // 随机颜色
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // 随机位置
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -10 + 'px';
+            
+            // 随机大小
+            const size = Math.random() * 10 + 5;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            
+            // 随机形状
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            document.body.appendChild(confetti);
+            
+            // 动画
+            const animationDuration = Math.random() * 3 + 2;
+            confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+            
+            // 创建关键帧
+            const keyframes = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            
+            const styleEl = document.createElement('style');
+            styleEl.innerHTML = keyframes;
+            document.head.appendChild(styleEl);
+            
+            // 移除元素
+            setTimeout(() => {
+                confetti.remove();
+                styleEl.remove();
+            }, animationDuration * 1000);
+        }
+    </script>
+</body>
+</html>
