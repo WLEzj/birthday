@@ -1,1 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        
+        body {
+            font-family: 'Ma Shan Zheng', cursive, Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: url('嫄.jpg') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            color: #ffcc00;
+            font-size: 3.5 rem;
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
 
+        .cake-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin: 20px 0;
+            transition: transform 0.5s;
+        }
+        
+        .cake-img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .message-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            line-height: 1.8;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .balloons {
+            font-size: 40px;
+            margin: 20px 0;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .balloons span {
+            display: inline-block;
+            animation: float 4s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff3366, #ff9933);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 3;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6; }
+        }
+        
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .photo-frame {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .message-box {
+                padding: 20px;
+            }
+
+        }
+        .timer-container {
+            background-color:#50464b;
+            color: #0f0;
+            padding: 30px;
+            border-radius: 10px;
+            font-size: 3rem;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            margin: 10px 0 12px;
+        }
+
+        .toggle-hint {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.5);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .toggle-btn.is-open {
+            transform: rotate(180deg);
+        }
+
+        .hidden-text {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-6px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .hidden-text.is-open {
+            max-height: none;
+            opacity: 1;
+            transform: translateY(0);
+            overflow: visible;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <h1>生日快乐！</h1>
+        <h1>新年快乐！</h1>
+        
+        <div class="balloons">
+            <span style="--i:1">🎈</span>
+            <span style="--i:2">🎉</span>
+            <span style="--i:3">🎁</span>
+            <span style="--i:4">🎊</span>
+            <span style="--i:5">🎂</span>
+        </div>
+
+    <div>
+        <div class="timer-container">
+        <div class="title">自2024年10月26日起我们已相识</div>
+        <span id="timer"></span><span>天</span>
+    </div>
+
+
+        <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="生日蛋糕" class="cake-img">
+        
+        <div class="message-box">
+            <p>亲爱的嫄嫄：<br>
+                新年快乐！祝你在新的一年里可以一如既往地幸福快乐~<br>
+                and-<br>
+                生日快乐！祝你在新的一岁中能够有所收获，更上一层楼d(`･∀･)b</p>
+            <div class="toggle-wrap">
+                <button class="toggle-btn" id="storyToggle" aria-expanded="false" aria-controls="storyText">▼</button>
+            </div>
+            <div id="storyText" class="hidden-text">
+                <p align="left"> 感谢嫄嫄一年来的教导与陪伴，虽然今年QQ没有出报告，但在聊得最多这方面嫄肯定还是断层式第一（手动狗头）。印象里，嫄是第一个给我送贺卡的人（虽然被我弄丢了），第一个我赠过联的人，第一个外地来找我玩的朋友。<br><br>
+                    九月二十日，是个难忘的日子，虽说我是一个比外地人还不了解武汉的宅家阴暗生物，当时也因为一些误会完全没有准备攻略，只有十分简单地带嫄转了一转，但那短短的几个小时却无时无刻不让我感到幸福。从夜晚兴奋地难以入眠，到车站的焦急等待和四处寻找；从地铁上的沉默，到街头桥畔的畅谈；从长沙来的明信片，到第一次远望黄鹤楼；从首次展示悠悠球的一时兴起，到离别时的意外熟悉......每一刻都是我的宝藏。<br><br>
+                    去年为中青干了一年活，身为一个懒癌患者，本准备就此离开，没想到被“骗”了回来，既然如此，那就准备好新的一年迎接活动中心历史上最菜的一任秘书长惹的各种乱子吧(￣ヘ￣)哼~
+                </p>
+            </div>
+        </div>
+        
+        <button class="btn" id="celebrateBtn">许个愿吧</button>
+        
+        <footer>
+            <p>为你特别制作 · <span id="currentYear"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        // 显示当前年份
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const storyToggle = document.getElementById('storyToggle');
+        const storyText = document.getElementById('storyText');
+
+        storyToggle.addEventListener('click', function() {
+            const isOpen = storyText.classList.toggle('is-open');
+            this.classList.toggle('is-open', isOpen);
+            this.setAttribute('aria-expanded', isOpen.toString());
+        });
+        
+        // 庆祝按钮功能
+        document.getElementById('celebrateBtn').addEventListener('click', function() {
+            // 创建五彩纸屑效果
+            for(let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+            
+            // 播放生日音乐
+            const audio = new Audio('https://www.soundjay.com/human/sounds/applause-01.mp3');
+            audio.play();
+            
+            // 按钮动画
+            this.textContent = 'happy birthday！';
+            this.style.background = 'linear-gradient(45deg, #33ff57, #3399ff)';
+        });
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // 随机颜色
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // 随机位置
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -10 + 'px';
+            
+            // 随机大小
+            const size = Math.random() * 10 + 5;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            
+            // 随机形状
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            document.body.appendChild(confetti);
+            
+            // 动画
+            const animationDuration = Math.random() * 3 + 2;
+            confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+            
+            // 创建关键帧
+            const keyframes = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            
+            const styleEl = document.createElement('style');
+            styleEl.innerHTML = keyframes;
+            document.head.appendChild(styleEl);
+            
+            // 移除元素
+            setTimeout(() => {
+                confetti.remove();
+                styleEl.remove();
+            }, animationDuration * 1000);
+        }
+
+        // 设置起始时间
+        const startTime = new Date("2024-10-26");
+        
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startTime;
+            
+            // 计算天
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            // 格式化显示
+            document.getElementById("timer").textContent = 
+                `${days.toString().padStart(2, '0')}`;
+        }
+        
+        // 立即更新一次，然后每秒更新
+        updateTimer();
+        setInterval(updateTimer, 1000 * 60 * 60 * 24);
+
+    </script>
+</body>
+</html>
